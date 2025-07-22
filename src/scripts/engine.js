@@ -1,13 +1,20 @@
 const state = {
-    view:{
-        squares: document.querySelectorAll(".square"),
-        enemy: document.querySelector(".enemy"),
-        timeLeft: document.querySelector("#time-left"),
-        score: document.querySelector("#score"),
-    },
-    values:{
-        timerId
-    },
+  view: {
+    squares: document.querySelectorAll(".square"),
+    enemy: document.querySelector(".enemy"),
+    timeLeft: document.querySelector("#time-left"),
+    score: document.querySelector("#score"),
+  },
+  values: {
+    gameVelocity: 1000,
+    hitPosition: 0,
+    result: 0,
+    curretTime: 60,
+  },
+  actions: {
+    timerId: setInterval(randomSquare, 1000),
+    countDownTimerId: setInterval(countDown, 1000),
+  },
 };
 
 function countDown() {
@@ -21,6 +28,12 @@ function countDown() {
   }
 }
 
+function playSound(audioName) {
+  let audio = new Audio(`./src/audios/${audioName}.m4a`);
+  audio.volume = 0.2;
+  audio.play();
+}
+
 function randomSquare() {
   state.view.squares.forEach((square) => {
     square.classList.remove("enemy");
@@ -32,9 +45,6 @@ function randomSquare() {
   state.values.hitPosition = randomSquare.id;
 }
 
-function moveEnemy(){
-
-}
 function addListenerHitBox() {
   state.view.squares.forEach((square) => {
     square.addEventListener("mousedown", () => {
